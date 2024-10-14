@@ -8,16 +8,16 @@ RUN apt-get update && \
     postgresql-client \
     && docker-php-ext-install pdo pdo_pgsql
 
-# Copy public files to the Apache web root
-COPY public/ /var/www/html/
+# Ensure the working directory is the project root
+WORKDIR /var/www/html
 
-# Copy the migration scripts to the container
-COPY src/migration /migrations
+# Copy everything to the container, including the public directory
+COPY . /var/www/html/
 
-# Set correct permissions for Apache
-RUN chown -R www-data:www-data /var/www/html/
+# Ensure public/ exists and is accessible
+RUN if [ ! -d "public" ]; then echo "Error: public directory not found!"; exit 1; fi
 
-# Expose Apache's default port
+# Expose the Apache port
 EXPOSE 80
 
 # Run the migration script and start Apache
