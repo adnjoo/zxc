@@ -1,19 +1,24 @@
+# Use the official PHP-Apache image
 FROM php:8.2-apache
 
-# Install necessary PHP extensions
-RUN docker-php-ext-install pdo pdo_pgsql
+# Install PostgreSQL libraries and PHP extensions
+RUN apt-get update && \
+    apt-get install -y \
+    libpq-dev \
+    postgresql-client \
+    && docker-php-ext-install pdo pdo_pgsql
 
-# Copy app files to the Apache web root
+# Copy public files to the Apache web root
 COPY public/ /var/www/html/
 
-# Copy migration scripts to the container
+# Copy the migration scripts to the container
 COPY src/migration /migrations
 
-# Set correct permissions
+# Set correct permissions for Apache
 RUN chown -R www-data:www-data /var/www/html/
 
-# Expose the Apache port
+# Expose Apache's default port
 EXPOSE 80
 
-# Run migrations and start Apache
-CMD psql $DATABASE_URL < /migrations/migrations.sql && apache2-foreground
+# Run the migration script and start Apache
+CMD ["sh", "-c", "psql $DATABASE_URL < /migrations/migrations.sql && apache2-foreground"]
