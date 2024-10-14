@@ -1,4 +1,5 @@
 {
-  "name": "my-todo-app",
+  "name": "andrewnjoo/my-todo-app",
+  "description": "A simple TODO app.",
   "require": {}
 }
