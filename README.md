@@ -9,11 +9,6 @@ A simple TODO application built with PHP and PostgreSQL that allows users to man
 
 ## Features
 
-- Add new TODO items
-- Mark TODOs as completed
-- View a list of all TODO items
-- Simple and user-friendly interface
-
 ### Prerequisites
 
 - PHP 7.4 or higher
@@ -44,16 +39,8 @@ A simple TODO application built with PHP and PostgreSQL that allows users to man
 
 ### Start the PHP Server
 
-To run the application, start the built-in PHP server:
+To run the application, start the built-in PHP server and navigate to http://localhost:8080:
 
 ```bash
 php -S localhost:8080 -t public
-```
-
-### Access the Application
-
-Open your browser and navigate to:
-
-```
-http://localhost:8080/
 ```
