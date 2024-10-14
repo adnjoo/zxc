@@ -1,24 +1,24 @@
-# Use the official PHP-Apache image
-FROM php:8.2-apache
+# Use the official PHP image
+FROM php:8.2-cli
 
-# Install PostgreSQL libraries and PHP extensions
+# Install PostgreSQL client and required PHP extensions
 RUN apt-get update && \
     apt-get install -y \
     libpq-dev \
     postgresql-client \
     && docker-php-ext-install pdo pdo_pgsql
 
-# Ensure the working directory is the project root
-WORKDIR /var/www/html
+# Set the working directory to /app
+WORKDIR /app
 
-# Copy everything to the container, including the public directory
-COPY . /var/www/html/
+# Copy the application files into the container
+COPY . /app
 
-# Ensure public/ exists and is accessible
+# Ensure the public/ directory exists
 RUN if [ ! -d "public" ]; then echo "Error: public directory not found!"; exit 1; fi
 
-# Expose the Apache port
-EXPOSE 80
+# Expose port 3000 required by Railway
+EXPOSE 3000
 
-# Run the migration script and start Apache
-CMD ["sh", "-c", "psql $DATABASE_URL < /migrations/migrations.sql && apache2-foreground"]
+# Command to run PHP's built-in server
+CMD ["php", "-S", "0.0.0.0:3000", "-t", "public"]
