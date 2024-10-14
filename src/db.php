@@ -1,5 +1,4 @@
 <?php
-// src/db.php
 
 function getDbConnection() {
     $host = 'localhost';
